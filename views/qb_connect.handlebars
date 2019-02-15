@@ -1,0 +1,87 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="apple-touch-icon icon shortcut" type="image/png" href="https://plugin.intuitcdn.net/sbg-web-shell-ui/6.3.0/shell/harmony/images/QBOlogo.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+ <script>
+
+        var config = {
+            authUri: '',
+            redirectUri: '{{{ redirect_uri }}}'
+        }
+        var OAuthCode = function(config) {
+            this.config = config;
+            this.authUri = function () {
+
+                // Generate the authUri
+                $.get('/authUri', function (uri) {
+                    config.authUri = uri
+                    console.log('The URI is :'+uri);
+                }).then(function () {
+
+                    // Launch Popup using the JS window Object
+                    var parameters = "location=1,width=800,height=650";
+                    parameters += ",left=" + (screen.width - 800) / 2 + ",top=" + (screen.height - 650) / 2;
+                    var win = window.open(config.authUri, 'connectPopup', parameters);
+                    var pollOAuth = window.setInterval(function () {
+                        try {
+                            if (win.document.URL.indexOf("code") != -1) {
+                                window.clearInterval(pollOAuth);
+                                win.close();
+                                location.reload();
+                            }
+                        } catch (e) {
+                            console.log(e)
+                        }
+                    }, 100);
+                });
+            }
+            this.refresh = function(){
+
+                $.get('/refreshAccessToken', function(data){
+                    console.log('The backend refresh called');
+                    var json = JSON.stringify(data, null, 2);
+                    $( '#accessToken' ).html( json );
+
+                });
+            };
+        }
+
+        var APIDemo = function() {
+            this.getCompanyInfo = function() {
+                $.get('/getCompanyInfo', function(data) {
+                    var json = JSON.stringify(data, null, '  ');
+                    $( '#apiCall' ).html( json );
+                });
+            }
+
+             this.findCustomers = function() {
+                $.get('/findCustomers', function(data) {
+                    var json = JSON.stringify(data, null, '  ');
+                    $( '#apiCall' ).html( json );
+                });
+            }
+             this.findItems = function() {
+                $.get('/findItems', function(data) {
+                    var json = JSON.stringify(data, null, '  ');
+                    $( '#apiCall' ).html( json );
+                });
+            }
+        }
+
+        var oauth = new OAuthCode(config);
+        var apiDemo = new APIDemo();
+    </script>
+</head>
+<body>
+
+<div class="container">
+<a class="imgLink" href="javascript:void(0)" onclick="oauth.authUri()"><img src="C2QB_green_btn_lg_default.png" width="178" /></a>
+
+    
+</div>
+</body>
+</html>
+

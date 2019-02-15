@@ -1,0 +1,28 @@
+{
+  "name": "Busybench-Quickbook-API",
+  "version": "0.0.1",
+  "description": "Quickbook online apis which connect with busybench ",
+  "scripts": {
+    "start": "node app",
+    "test": "./node_modules/mocha/bin/mocha test/**/*-test.js --reporter spec"
+  },
+  "author": "Acs",
+  "license": "MIT",
+  "homepage": "https://www.itsabacus.com/",
+  "dependencies": {
+    "atob": "^2.0.3",
+    "body-parser": "^1.18.3",
+    "csrf": "^3.0.4",
+    "dotenv": "^5.0.1",
+    "ejs": "^2.5.2",
+    "express": "^4.14.0",
+    "express-handlebars": "latest",
+    "express-session": "^1.14.2",
+    "handlebars": "^4.0.5",
+    "json2csv": "^3.11.5",
+    "mysql": "^2.16.0",
+    "node-quickbooks": "latest",
+    "query-string": "^5.0.1",
+    "request": "^2.78.0"
+  }
+}
