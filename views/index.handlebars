@@ -168,7 +168,7 @@
                 $.get('/refreshAccessToken', function(data){
                     console.log('The backend refresh called');
                     var json = JSON.stringify(data, null, 2);
-                    $( '#accessToken' ).html( json );
+                    $( '#accessToken' ).html( "test"+json );
 
                 });
             };
